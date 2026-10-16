@@ -1,0 +1,965 @@
+<!-- ============================================================
+  Optimization.pk - WordPress ready, FINAL (single file, self-contained)
+  HOW TO USE: paste this entire file into a WordPress "Custom HTML" block.
+  - Hero image is hosted and embedded (link expires 2026-10-14 - move the
+    image to your WP Media Library before then and swap the <img> src).
+  - Icons are inlined SVG (no external icon library needed).
+  - Only external request left: Google Fonts (Poppins).
+  - All styles scoped under #optpk - safe for your theme.
+  Page title/meta description: set in Rank Math, not here.
+============================================================= -->
+<!-- Needed only when opening this file directly in a browser, so phone/tablet view works. WordPress themes already add it. -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* Headings take the colour of their section (dark text on light sections, white on dark ones), not the WordPress theme's heading colour. */
+#optpk h1, #optpk h2, #optpk h3, #optpk h4{ color: inherit; }
+#optpk{
+  --ink: #151515;            
+  --signal: #00c26e;         
+  --deep-green: #007a43;     
+  --paper: #ffffff;
+  --dark-muted: #a6a6a6;     
+  --background: #ffffff;
+  --foreground: #151515;
+  --muted: #f5f4f1;          
+  --muted-foreground: #5c5c5c; 
+  --accent: #dcf6e4;         
+  --border: #e5e4df;         
+  --ring: #007a43;
+  --radius: 0.5rem;
+  --font-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}#optpk *, #optpk *::before, #optpk *::after{ box-sizing: border-box; margin: 0; padding: 0; }#optpk *{ border-color: var(--border); }#optpk{ scroll-behavior: smooth; scroll-padding-top: 90px; }#optpk{
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}#optpk img{ max-width: 100%; display: block; }#optpk a{ color: inherit; text-decoration: none; }#optpk button{ font: inherit; background: none; border: 0; cursor: pointer; color: inherit; }#optpk input, #optpk select, #optpk textarea{ font: inherit; }#optpk ::selection{ background: var(--signal); color: var(--ink); }#optpk .container-site{ width: min(1200px, calc(100% - 96px)); margin-inline: auto; }#optpk .btn{
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; white-space: nowrap; border-radius: 9999px;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s;
+  text-decoration: none;
+}#optpk .btn svg{ width: 16px; height: 16px; flex-shrink: 0; pointer-events: none; }#optpk .btn:focus-visible{ outline: none; box-shadow: 0 0 0 1px var(--ring); }#optpk .btn-lg{ height: 48px; padding: 0 24px; }#optpk .btn-icon{ height: 36px; width: 36px; padding: 0; border-radius: 9999px; }#optpk .btn-ink{ background: var(--foreground); color: var(--background); }#optpk .btn-ink:hover{ background: rgba(21,21,21,.85); }#optpk .btn-brand{ background: var(--signal); color: var(--ink); }#optpk .btn-brand:hover{ background: rgba(0,194,110,.85); }#optpk .btn-line{ border: 1px solid var(--border); background: transparent; color: var(--foreground); }#optpk .btn-line:hover{ background: var(--muted); }#optpk .btn-ghost{ background: transparent; }#optpk .btn-ghost:hover{ background: var(--accent); color: var(--deep-green); }#optpk .btn-link{ color: var(--deep-green); text-underline-offset: 4px; height: auto; padding: 0; font-size: 12px; }#optpk .btn-link:hover{ text-decoration: underline; }#optpk .site-header{
+  height: 94px; border-bottom: 1px solid var(--border);
+  background: var(--paper); position: relative; z-index: 20;
+}#optpk .header-inner{ height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }#optpk .wordmark{
+  display: inline-flex; align-items: center;
+  font-size: 27px; font-weight: 700; line-height: 1; white-space: nowrap;
+}#optpk .wordmark .dot-pk{ color: var(--signal); }
+/* ---------- Brand mark (striped O) ----------
+   The mark is drawn once in the #optpk-logo SVG symbol; the version is picked by the background:
+   - white / light background  -> default            : black stripes + green base
+   - black / dark background   -> add class on-dark  : white stripes + green base
+   - brand green background    -> add class on-green : black stripes + white base
+   Put on-dark / on-green on the mark itself or on any parent element. */
+#optpk .brand-o{
+  display: inline-block; width: .86em; height: .86em; margin-right: 1px; flex-shrink: 0;
+  --logo-top: var(--ink); --logo-base: var(--signal);
+}
+#optpk .on-dark .brand-o, #optpk .brand-o.on-dark{ --logo-top: var(--paper); --logo-base: var(--signal); }
+#optpk .on-green .brand-o, #optpk .brand-o.on-green{ --logo-top: var(--ink); --logo-base: var(--paper); }
+#optpk .on-dark.wordmark, #optpk .on-dark .wordmark{ color: var(--paper); }
+#optpk .on-green.wordmark .dot-pk, #optpk .on-green .wordmark .dot-pk{ color: var(--paper); }
+#optpk .site-nav{ display: none; align-items: center; gap: 28px; font-size: 12px; }#optpk .site-nav a{ transition: color .2s; }#optpk .site-nav a:hover{ color: var(--deep-green); }#optpk .header-actions{ display: flex; align-items: center; gap: 12px; }#optpk .header-cta{ display: none; }#optpk .menu-toggle{ display: inline-flex; }#optpk .mobile-nav{
+  display: none; position: absolute; top: 76px; left: 0; right: 0;
+  background: var(--paper); border-bottom: 1px solid var(--border);
+  padding: 25px; grid-template-columns: 1fr; gap: 20px; font-size: 15px;
+}#optpk .mobile-nav.open{ display: grid; }#optpk .mobile-nav a{ display: inline-flex; align-items: center; gap: 6px; }#optpk .mobile-nav svg{ width: 16px; height: 16px; }#optpk .hero{ min-height: 680px; position: relative; overflow: hidden; }#optpk .hero-image{ position: absolute; width: 100%; height: 100%; object-fit: cover; object-position: center; }#optpk .hero-content{ position: relative; z-index: 1; padding-block: 77px 64px; }#optpk .eyebrow{
+  font-size: 11px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+}#optpk .status-dot{ width: 7px; height: 7px; background: var(--signal); border-radius: 50%; display: inline-block; }#optpk .hero h1{ font-size: 58px; font-weight: 700; line-height: 1.17; max-width: 740px; margin: 25px 0 20px; }#optpk .rotating-title{ display: block; color: var(--deep-green); max-width: 720px; min-height: 136px; }#optpk .rotate-in{ display: block; animation: word-enter .5s ease both; }#optpk .hero-copy{ font-size: 14px; line-height: 1.9; max-width: 480px; color: var(--muted-foreground); }#optpk .hero-ctas{ margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }#optpk .hero-trust{ margin-top: 32px; display: flex; align-items: center; gap: 20px; font-size: 10px; color: var(--muted-foreground); }#optpk .hero-trust span{ display: inline-flex; align-items: center; gap: 6px; }#optpk .hero-trust svg{ width: 12px; height: 12px; color: var(--deep-green); }#optpk .section{ padding-block: 100px; }#optpk .section-heading{ font-size: 41px; font-weight: 700; line-height: 1.25; margin-top: 18px; }#optpk .section-copy{ font-size: 14px; line-height: 1.9; color: var(--muted-foreground); }#optpk .section-number{ font-size: 12px; color: var(--deep-green); font-weight: 600; }#optpk .bg-muted{ background: var(--muted); }#optpk .bg-accent{ background: var(--accent); }#optpk .text-deep-green{ color: var(--deep-green); }#optpk .text-signal{ color: var(--signal); }#optpk .dark-section{ background: var(--ink); color: var(--paper); }#optpk .dark-section .section-copy{ color: var(--dark-muted); }#optpk .dark-section .feature-list svg{ color: var(--signal); }#optpk .split-2{ display: grid; gap: 40px; align-items: start; }#optpk .section-lede{ display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; }#optpk .platform-band{ border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-block: 32px; }#optpk .platform-band .band-label{ margin-bottom: 24px; text-align: center; font-size: 10px; font-weight: 500; letter-spacing: 2.5px; color: var(--muted-foreground); }#optpk .platform-words{ display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 48px; row-gap: 20px; }#optpk .platform-word{ font-size: 24px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }#optpk .platform-word svg{ width: 23px; height: 23px; }#optpk .platform-word .sub{ font-size: 14px; font-weight: 400; }#optpk .services-grid{ margin-top: 48px; display: grid; gap: 20px; }#optpk .service-card{
+  border: 1px solid var(--border); border-radius: 8px; padding: 30px;
+  background: var(--paper); transition: transform .25s, border-color .25s;
+  display: flex; flex-direction: column;
+}#optpk .service-card{ border-color: var(--deep-green); transition: transform .25s, box-shadow .25s; }#optpk .service-card:hover{ transform: translateY(-5px); box-shadow: 0 0 0 1.5px var(--deep-green); }#optpk .service-card .icon-tile svg{ color: var(--deep-green); }#optpk .service-card-top{ display: flex; align-items: center; justify-content: space-between; }#optpk .service-card-top .short{ font-size: 12px; font-weight: 500; color: var(--deep-green); }#optpk .icon-tile{
+  height: 48px; width: 48px; display: grid; place-items: center;
+  border: 1px solid var(--border); border-radius: 8px;
+}#optpk .icon-tile svg{ width: 23px; height: 23px; }#optpk .service-card h3{ margin-top: 28px; font-size: 20px; font-weight: 600; line-height: 1.4; }#optpk .service-card .service-text{ margin-top: 16px; font-size: 12px; line-height: 1.9; color: var(--muted-foreground); flex: 1; }#optpk .service-card .service-link{
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border); padding-top: 20px; font-size: 12px; font-weight: 500;
+}#optpk .service-card .service-link svg{ width: 18px; height: 18px; }#optpk .feature-list{ list-style: none; display: grid; gap: 16px; margin-block: 25px 30px; font-size: 13px; }#optpk .feature-list li{ display: flex; gap: 10px; align-items: center; }#optpk .feature-list svg{ color: var(--deep-green); width: 16px; height: 16px; flex-shrink: 0; }#optpk .feature-visual{
+  min-height: 340px; display: flex; align-items: center; justify-content: center;
+  padding: 36px; position: relative; background: var(--muted); border-radius: 8px;
+}#optpk .search-window{
+  width: 100%; background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; padding: 24px; box-shadow: 0 18px 45px rgba(21,21,21,.06);
+}#optpk .search-window .mock-title{ margin-bottom: 20px; text-align: center; font-size: 20px; font-weight: 600; }#optpk .search-bar{
+  display: flex; align-items: center; gap: 10px; border: 1px solid var(--border);
+  padding: 13px 15px; border-radius: 24px; font-size: 11px;
+}#optpk .search-bar svg{ width: 15px; height: 15px; }#optpk .search-tabs{ margin-top: 20px; display: flex; gap: 16px; font-size: 9px; color: var(--muted-foreground); }#optpk .search-tabs .active{ color: var(--deep-green); }#optpk .search-result{ border-top: 1px solid var(--border); padding-top: 18px; margin-top: 18px; }#optpk .search-result .result-brand{ display: flex; align-items: center; gap: 8px; font-size: 10px; }#optpk .result-avatar{ display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); }#optpk .result-avatar svg{ width: 13px; height: 13px; }#optpk .search-result .result-head{ margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--deep-green); }#optpk .search-result .result-desc{ margin-top: 8px; font-size: 10px; line-height: 1.7; color: var(--muted-foreground); }#optpk .result-badge{
+  margin-top: 16px; display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 9999px; background: var(--accent); padding: 4px 12px; font-size: 9px; color: var(--deep-green);
+}#optpk .result-badge svg{ width: 12px; height: 12px; }#optpk .mock-caption{ margin-top: 20px; font-size: 8px; color: var(--muted-foreground); }#optpk .geo-card{ border-radius: 8px; border: 1px solid rgba(255,255,255,.2); padding: 28px; }#optpk .geo-card .geo-head{ display: flex; align-items: center; gap: 8px; font-size: 14px; }#optpk .geo-card .geo-head svg{ color: var(--signal); width: 20px; height: 20px; }#optpk .geo-quote{ margin-block: 24px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); padding: 16px; font-size: 12px; color: var(--dark-muted); }#optpk .geo-body{ font-size: 12px; line-height: 1.9; color: var(--dark-muted); }#optpk .geo-highlight{ margin-block: 20px; border-left: 2px solid var(--signal); padding-left: 16px; }#optpk .geo-highlight .h{ font-size: 14px; font-weight: 500; }#optpk .geo-highlight .s{ margin-top: 8px; font-size: 11px; line-height: 1.9; color: var(--dark-muted); }#optpk .geo-tags{ display: flex; gap: 8px; flex-wrap: wrap; }#optpk .geo-tags span{ border-radius: 9999px; border: 1px solid rgba(255,255,255,.2); padding: 4px 12px; font-size: 9px; }#optpk .geo-note{ margin-top: 24px; font-size: 8px; color: var(--dark-muted); }#optpk .aeo-kicker{ display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--muted-foreground); margin-bottom: 20px; }#optpk .aeo-kicker svg{ width: 16px; height: 16px; }#optpk .aeo-title{ font-size: 18px; font-weight: 600; }#optpk .aeo-desc{ margin-top: 16px; font-size: 12px; line-height: 1.9; color: var(--muted-foreground); }#optpk .aeo-rows{ margin-top: 24px; display: grid; gap: 12px; }#optpk .aeo-row{ display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px; font-size: 10px; }#optpk .aeo-row svg{ width: 13px; height: 13px; color: var(--deep-green); }#optpk .process-grid{ margin-top: 48px; display: grid; gap: 32px; }#optpk .process-step{ padding: 30px 28px 0 0; border-top: 1px solid var(--border); }#optpk .big-number{ font-size: 52px; line-height: 1; color: var(--deep-green); font-weight: 500; }#optpk .big-number .dot{ color: var(--foreground); }#optpk .process-step h3{ margin-top: 24px; font-size: 18px; font-weight: 600; }#optpk .process-step .section-copy{ margin-top: 12px; font-size: 12px; }#optpk .measure-rows{ display: grid; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }#optpk .measure-row{ display: flex; align-items: center; gap: 20px; padding-block: 28px; }#optpk .measure-row + .measure-row{ border-top: 1px solid var(--border); }#optpk .measure-row h3{ font-size: 14px; font-weight: 600; }#optpk .measure-row p{ margin-top: 8px; font-size: 12px; color: var(--muted-foreground); }#optpk .measure-row .go{ margin-left: auto; color: var(--deep-green); width: 20px; height: 20px; flex-shrink: 0; }#optpk .industries-grid{ display: grid; grid-template-columns: 1fr; column-gap: 28px; }#optpk .industry{
+  border-bottom: 1px solid var(--border); display: flex; align-items: center;
+  gap: 15px; padding: 24px 0; font-size: 18px; font-weight: 500;
+}#optpk .industry svg{ color: var(--deep-green); width: 22px; height: 22px; flex-shrink: 0; }#optpk .why-grid{ margin-top: 48px; display: grid; gap: 36px; }#optpk .why-item{ border-top: 1px solid var(--border); padding-top: 28px; }#optpk .why-item svg{ width: 26px; height: 26px; color: var(--deep-green); }#optpk .why-item h3{ margin-top: 20px; font-size: 16px; font-weight: 600; }#optpk .why-item .section-copy{ margin-top: 12px; font-size: 12px; }#optpk .insights-head{ display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }#optpk .insights-head .side-note{ display: none; font-size: 12px; color: var(--muted-foreground); }#optpk .insights-grid{ margin-top: 40px; display: grid; gap: 24px; }#optpk .insight-card{ border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--paper); display: flex; flex-direction: column; }#optpk .insight-art{ height: 205px; display: flex; align-items: center; justify-content: center; overflow: hidden; }#optpk .insight-art.bg-paper{ background: var(--paper); }#optpk .insight-art.bg-ink{ background: var(--ink); }#optpk .insight-art.bg-accent{ background: var(--accent); }#optpk .insight-art .chart{ display: flex; align-items: flex-end; gap: 12px; }#optpk .insight-art .chart .bar{ width: 36px; }#optpk .insight-art .chart .bar.b1{ height: 48px; background: var(--deep-green); }#optpk .insight-art .chart .bar.b2{ height: 80px; background: var(--signal); }#optpk .insight-art .chart .bar.b3{ height: 128px; background: var(--ink); }#optpk .insight-art .chart svg{ width: 56px; height: 56px; color: var(--deep-green); margin-bottom: 64px; }#optpk .insight-art .brand-o{ width: 112px; height: 112px; margin: 0; }#optpk .outline-letters{ font-size: 90px; font-weight: 700; color: transparent; -webkit-text-stroke: 1px var(--deep-green); }#optpk .insight-body{ padding: 24px; display: flex; flex-direction: column; flex: 1; }#optpk .insight-tag{ font-size: 8px; font-weight: 500; letter-spacing: 2px; color: var(--deep-green); }#optpk .insight-body h3{ margin: 16px 0 24px; font-size: 18px; font-weight: 600; line-height: 1.4; flex: 1; }#optpk .insight-body .btn-link svg{ width: 16px; height: 16px; }#optpk .footer{ background: var(--ink); color: var(--paper); padding-block: 48px; }#optpk .footer-top{ display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 32px; }#optpk .footer-tag{ margin-top: 20px; font-size: 12px; color: var(--dark-muted); }#optpk .footer-links{ display: flex; gap: 40px; font-size: 12px; }#optpk .footer-links .col{ display: grid; gap: 12px; align-content: start; }#optpk .footer-links a{ color: var(--paper); transition: color .2s; }#optpk .footer-links a:hover{ color: var(--signal); }#optpk .to-top{ color: var(--signal); display: inline-flex; }#optpk .to-top svg{ width: 35px; height: 35px; }#optpk .footer-word{
+  margin-top: 48px; border-bottom: 1px solid rgba(255,255,255,.2);
+  padding-bottom: 28px; font-size: 94px; line-height: 1.3; font-weight: 700;
+}#optpk .footer-bottom{ margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 9px; color: var(--dark-muted); }#optpk .modal-overlay{
+  position: fixed; inset: 0; z-index: 50; display: none;
+  align-items: center; justify-content: center; background: rgba(21,21,21,.7); padding: 20px;
+}#optpk .modal-overlay.open{ display: flex; }#optpk .modal-card{
+  max-height: 85vh; width: 100%; max-width: 576px; overflow: auto;
+  border-radius: 8px; background: var(--background); padding: 32px; position: relative;
+}#optpk .modal-head{ display: flex; align-items: center; justify-content: space-between; }#optpk .modal-tag{ font-size: 10px; color: var(--deep-green); }#optpk .modal-card h2{ margin-top: 18px; }#optpk .modal-card .section-copy{ margin-top: 24px; }#optpk .modal-card .modal-cta{ margin-top: 32px; }#optpk .modal-close{ display: inline-flex; }@keyframes word-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }@media (min-width: 640px) {#optpk .header-cta{ display: block; }#optpk .insights-head .side-note{ display: block; }#optpk .industries-grid{ grid-template-columns: 1fr 1fr; }#optpk .modal-card{ padding: 48px; }}@media (min-width: 768px) {#optpk .split-2{ grid-template-columns: 1fr 1fr; }#optpk .services-grid{ grid-template-columns: repeat(3, 1fr); }#optpk .process-grid{ grid-template-columns: 1fr 1fr; }#optpk .why-grid{ grid-template-columns: repeat(3, 1fr); }#optpk .insights-grid{ grid-template-columns: repeat(3, 1fr); }#optpk .search-era-right{ padding-top: 36px; }}@media (min-width: 1024px) {#optpk .site-nav{ display: flex; }#optpk .menu-toggle{ display: none; }#optpk .process-grid{ grid-template-columns: repeat(4, 1fr); }}@media (max-width: 1024px) {#optpk .container-site{ width: calc(100% - 56px); }#optpk .hero h1{ font-size: 48px; max-width: 610px; }#optpk .rotating-title{ min-height: 115px; }#optpk .hero-image{ opacity: .65; }#optpk .section-heading{ font-size: 35px; }#optpk .wordmark{ font-size: 23px; }#optpk .footer-word{ font-size: 70px; }}@media (max-width: 640px) {#optpk .container-site{ width: calc(100% - 40px); }#optpk .site-header{ height: 76px; }#optpk .hero{ min-height: 755px; }#optpk .hero-content{ padding-block: 46px 220px; }#optpk .hero h1{ font-size: 38px; line-height: 1.2; }#optpk .rotating-title{ min-height: 138px; }#optpk .hero-image{ height: 320px; top: auto; bottom: 0; opacity: 1; object-position: right center; }#optpk .hero-copy{ max-width: 340px; font-size: 13px; }#optpk .hero-trust{ flex-direction: column; align-items: flex-start; gap: 10px; }#optpk .section{ padding-block: 65px; }#optpk .section-heading{ font-size: 30px; }#optpk .platform-word{ font-size: 19px; }#optpk .platform-band{ padding-block: 25px; }#optpk .feature-visual{ min-height: 290px; padding: 20px; }#optpk .service-card{ padding: 25px; }#optpk .footer-word{ font-size: 39px; }#optpk .eyebrow{ font-size: 9px; letter-spacing: 1px; }}@media (max-width: 640px) {#optpk .hero-image{ height: 190px; }}@media (prefers-reduced-motion: reduce) {#optpk{ scroll-behavior: auto; }#optpk *, #optpk *::before, #optpk *::after{ animation: none !important; transition: none !important; }}
+#optpk .trust-strip{ display: grid; grid-template-columns: 1fr; row-gap: 32px; margin-top: 64px; }
+#optpk .trust-item{ position: relative; padding: 40px 32px 0 0; font-size: 17px; font-weight: 500; line-height: 1.6; color: var(--foreground); }
+#optpk .trust-item::before{ content: ""; position: absolute; top: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--signal); }
+#optpk .trust-item::after{ content: ""; position: absolute; top: 5px; left: 22px; right: 10px; border-top: 2px dashed var(--border); }
+@media (min-width: 640px) { #optpk .trust-strip{ grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { #optpk .trust-strip{ grid-template-columns: repeat(4, 1fr); } }
+
+@media (min-width: 1025px) {
+  #optpk .hero-image{
+    width: auto; height: 100%; left: auto; right: max(0px, calc((100% - 1200px) / 2 - 140px)); object-fit: contain;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 97%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 97%, transparent 100%);
+  }
+}
+#optpk .testimonial-head{ align-items: end; }
+#optpk .testimonial-points{ list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; font-size: 14px; }
+#optpk .testimonial-points li{ display: flex; align-items: center; gap: 10px; }
+#optpk .testimonial-points svg{ width: 16px; height: 16px; color: var(--signal); flex-shrink: 0; }
+#optpk .testimonial-grid{ display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 56px; }
+#optpk .testimonial-card{
+  position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
+  border-radius: 20px; border: 1px solid var(--border); color: var(--foreground);
+  background: linear-gradient(120deg, #ece7df 0%, var(--muted) 60%, #e9efe9 100%);
+  container-type: inline-size; transition: transform .25s, border-color .25s;
+}
+#optpk .testimonial-card:hover{ transform: translateY(-5px); border-color: var(--deep-green); }
+#optpk .t-photo{ position: absolute; inset: 0 0 0 46%; display: flex; align-items: flex-end; justify-content: center; color: #d3cfc6; }
+#optpk .t-photo svg{ width: 78%; height: auto; display: block; }
+#optpk .t-photo img{ width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+#optpk .t-panel{
+  position: absolute; left: 4%; top: 9%; bottom: 9%; width: 42%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: 0 4%; background: rgba(255,255,255,.72);
+  clip-path: polygon(50% 0, 100% 22%, 100% 78%, 50% 100%, 0 78%, 0 22%);
+}
+#optpk .t-name{ font-size: 22px; font-size: max(16px, 4.4cqw); font-weight: 700; line-height: 1.2; }
+#optpk .t-title{ font-size: 11px; font-size: max(10px, 2cqw); font-weight: 600; margin-top: .3em; padding-bottom: .7em; border-bottom: 2px solid var(--signal); }
+#optpk .t-logo{
+  margin-top: .9em; padding: .5em 1em; border: 1px dashed #b9b6ad; border-radius: 6px;
+  font-size: 10px; font-size: max(9px, 1.8cqw); color: var(--muted-foreground);
+}
+#optpk .t-logo:has(img){ border: 0; padding: 0; }
+#optpk .t-logo img{ max-height: 44px; max-height: 9cqw; width: auto; display: block; }
+#optpk .t-panel .brand-o{ position: absolute; bottom: 9%; width: 22px; width: 5cqw; height: 22px; height: 5cqw; margin: 0; }
+#optpk .t-play{
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 58px; width: 10cqw; height: 40px; height: 7cqw; border-radius: 10px;
+  display: grid; place-items: center; background: var(--signal); color: var(--paper);
+}
+#optpk .t-play svg{ width: 46%; height: auto; }
+@media (min-width: 768px) { #optpk .testimonial-grid{ grid-template-columns: 1fr 1fr; } }
+#optpk .founder{ border-top: 1px solid var(--border); }
+#optpk .founder-grid{ align-items: center; }
+#optpk .founder-copy .section-heading{ margin-bottom: 24px; }
+#optpk .founder-copy .section-copy + .section-copy{ margin-top: 16px; }
+#optpk .founder-cta{ margin-top: 32px; }
+#optpk .founder-photo{ display: flex; justify-content: center; }
+#optpk .founder-photo img{ width: 100%; max-width: 320px; height: auto; display: block; }
+@media (min-width: 768px) { #optpk .founder-photo{ justify-content: center; } }
+/* ---------- Mobile (phones) ---------- */
+@media (max-width: 640px) {
+  #optpk .trust-strip{ grid-template-columns: 1fr; row-gap: 16px; margin-top: 40px; }
+  #optpk .trust-item{ font-size: 15px; line-height: 1.5; padding: 0 0 0 22px; }
+  #optpk .trust-item::before{ top: .5em; width: 9px; height: 9px; }
+  #optpk .trust-item::after{ display: none; }
+  #optpk .testimonial-grid{ margin-top: 36px; gap: 18px; }
+  #optpk .testimonial-card{ aspect-ratio: 4 / 3; border-radius: 16px; }
+  #optpk .t-panel{ left: 3%; top: 8%; bottom: 8%; width: 52%; }
+  #optpk .t-photo{ inset: 0 0 0 52%; }
+  #optpk .t-play{ left: 56%; width: 46px; height: 34px; border-radius: 8px; }
+  #optpk .t-name{ font-size: 17px; }
+  #optpk .t-title{ font-size: 11px; }
+  #optpk .t-logo{ font-size: 10px; }
+  #optpk .t-logo img{ max-height: 34px; }
+  #optpk .t-panel .brand-o{ width: 20px; height: 20px; }
+  #optpk .process-grid{ grid-template-columns: 1fr 1fr; gap: 28px 18px; margin-top: 36px; }
+  #optpk .process-step{ padding: 22px 0 0; }
+  #optpk .process-step .big-number{ font-size: 40px; }
+  #optpk .process-step h3{ margin-top: 14px; font-size: 16px; }
+  #optpk .industries-grid{ grid-template-columns: 1fr 1fr; column-gap: 18px; }
+  #optpk .industry{ font-size: 14px; padding: 18px 0; gap: 10px; line-height: 1.35; }
+  #optpk .industry svg{ width: 18px; height: 18px; }
+  #optpk .founder-photo img{ max-width: 210px; }
+  #optpk .hero-ctas .btn{ flex: 1 1 100%; }
+}/* ---------- Tablet ---------- */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #optpk .hero h1{ font-size: 44px; max-width: 520px; }
+  #optpk .hero-image{
+    width: auto; height: 62%; top: auto; bottom: 0; left: auto; right: -20px; object-fit: contain; opacity: 1;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 30%), linear-gradient(to bottom, transparent 0, #000 28%); -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0, #000 30%), linear-gradient(to bottom, transparent 0, #000 28%); mask-composite: intersect;
+  }
+  #optpk .industry{ font-size: 15px; padding: 20px 0; gap: 10px; line-height: 1.35; }
+  #optpk .industry svg{ width: 19px; height: 19px; }
+}/* ---------- Platform band: auto-sliding row on phones ---------- */
+#optpk .platform-dup{ display: none; }
+@keyframes optpk-platform-slide { to { transform: translateX(-50%); } }
+@media (max-width: 640px) {
+  #optpk .platform-band .container-site{
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  }
+  #optpk .platform-words{ flex-wrap: nowrap; justify-content: flex-start; gap: 0; width: max-content; animation: optpk-platform-slide 18s linear infinite; }
+  #optpk .platform-word{ margin-right: 38px; flex-shrink: 0; }
+  #optpk .platform-dup{ display: inline-flex; }
+}
+@media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  #optpk .platform-band .container-site{ overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  #optpk .platform-dup{ display: none; }
+}/* ---------- Hero (AI chat demo) ---------- */
+#optpk .hero-ai{ background: radial-gradient(ellipse at 50% 0%, var(--accent) 0%, #fff 62%); text-align: center; padding: 80px 24px 72px; }
+#optpk .hero-ai .eyebrow{ font-size: 11px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
+#optpk .hero-ai .eyebrow i{ width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
+#optpk .hero-ai h1{ font-size: 44px; line-height: 1.2; font-weight: 700; max-width: 1160px; margin: 22px auto 18px; }
+#optpk .hero-ai .rot{ display: inline-block; min-width: 0; }
+#optpk .hero-ai .rot em{ display: inline-block; }
+#optpk .hero-ai .rot em.rotate-in{ display: inline-block; animation: optpk-rot-in .4s ease both; }
+@keyframes optpk-rot-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+#optpk .hero-ai h1 em{ font-style: normal; color: var(--deep-green); }
+#optpk .hero-ai .copy{ font-size: 15px; line-height: 1.85; color: var(--muted-foreground); max-width: 600px; margin: 0 auto; }
+#optpk .hero-ai .btns{ display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+#optpk .hero-ai .btn{ height: 50px; padding: 0 24px; border-radius: 999px; display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--ink); border: 1px solid var(--border); background: #fff; transition: opacity .2s; }
+#optpk .hero-ai .btn:hover{ opacity: .85; }
+#optpk .hero-ai .btn.ink{ background: var(--ink); color: #fff; border-color: var(--ink); }
+#optpk .hero-ai .chat{ max-width: 700px; margin: 48px auto 0; text-align: left; background: #fff; border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 30px 70px rgba(21,21,21,.10); overflow: hidden; }
+#optpk .hero-ai .chat-bar{ display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--muted-foreground); }
+#optpk .hero-ai .chat-bar i{ width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+#optpk .hero-ai .chat-bar span{ margin-left: 8px; }
+#optpk .hero-ai .chat-bar small{ margin-left: auto; font-size: 10px; color: var(--deep-green); background: var(--accent); border-radius: 999px; padding: 3px 10px; }
+#optpk .hero-ai .chat-body{ padding: 24px; min-height: 220px; }
+#optpk .hero-ai .msg-user{ margin-left: auto; width: fit-content; max-width: 85%; background: var(--ink); color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 16px; font-size: 13px; min-height: 42px; }
+#optpk .hero-ai .msg-user .caret{ display: inline-block; width: 2px; height: 14px; background: var(--signal); margin-left: 2px; vertical-align: -2px; animation: optpk-caret-blink .8s step-end infinite; }
+@keyframes optpk-caret-blink { 50% { opacity: 0; } }
+#optpk .hero-ai .msg-ai{ display: flex; gap: 12px; margin-top: 18px; opacity: 0; transform: translateY(8px); transition: opacity .5s, transform .5s; }
+#optpk .hero-ai .msg-ai.show{ opacity: 1; transform: none; }
+#optpk .hero-ai .msg-ai .av{ width: 30px; height: 30px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; color: var(--deep-green); font-size: 13px; flex-shrink: 0; }
+#optpk .hero-ai .msg-ai p{ font-size: 13px; line-height: 1.8; color: #333; }
+#optpk .hero-ai .msg-ai mark{ background: var(--accent); color: var(--deep-green); font-weight: 600; padding: 1px 6px; border-radius: 6px; }
+#optpk .hero-ai .sources{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+#optpk .hero-ai .sources span{ font-size: 10px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; }
+#optpk .hero-ai .sources span:first-child{ border-color: var(--deep-green); color: var(--deep-green); font-weight: 600; }
+#optpk .hero-ai .chat-note{ font-size: 10px; color: var(--muted-foreground); margin-top: 14px; }
+@media (max-width: 1100px) { #optpk .hero-ai h1{ font-size: 38px; } }
+@media (max-width: 900px) { #optpk .hero-ai .rot{ display: block; min-height: 2.36em; } #optpk .hero-ai h1 br{ display: none; } }
+
+@media (max-width: 640px) {
+  #optpk .hero-ai{ padding: 52px 18px 48px; background: radial-gradient(ellipse 160% 55% at 50% 0%, var(--accent) 0%, #fff 70%); }
+  #optpk .hero-ai h1{ font-size: 29px; }
+  #optpk .hero-ai .copy{ font-size: 14px; }
+  #optpk .hero-ai .chat-body{ padding: 18px; min-height: 250px; }
+  #optpk .hero-ai .chat-bar small{ display: none; }
+}
+@media (prefers-reduced-motion: reduce) { #optpk .hero-ai .msg-user .caret{ display: none; } #optpk .hero-ai .msg-ai{ transition: none; } }
+/* ---------- Section headings (H2) sized below the hero H1 ---------- */
+#optpk .section-heading{ font-size: 36px; }
+/* ---------- Client logo slider: colour icon + grey company name, loops continuously ---------- */
+@keyframes optpk-client-slide { to { transform: translateX(-50%); } }
+#optpk .client-slider{
+  margin-top: 64px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+#optpk .client-track{ display: flex; align-items: center; width: max-content; animation: optpk-client-slide 50s linear infinite; }
+#optpk .client-slider:hover .client-track{ animation-play-state: paused; }
+#optpk .client-logo{ display: inline-flex; align-items: center; margin-right: 72px; flex-shrink: 0; }
+/* Each logo sets its own height with --h so the wordmarks look evenly weighted; the multiplier scales them all. */
+#optpk .client-logo img{ height: calc(var(--h, 44) * .74px); width: auto; display: block; }
+/* Single-colour logo files (any colour) shown as the same flat grey as the others. */
+#optpk .client-mono img{ filter: brightness(0); opacity: .47; }
+#optpk .client-word{ gap: 9px; font-size: 25px; font-weight: 500; letter-spacing: -.01em; line-height: 1; white-space: nowrap; color: #787878; }
+#optpk .client-word svg{ width: 26px; height: 26px; fill: currentColor; flex-shrink: 0; }
+#optpk .client-label{ margin: 64px 0 0; text-align: center; font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted-foreground); }
+#optpk .client-label + .client-slider{ margin-top: 28px; }
+@media (max-width: 640px) {
+  #optpk .client-slider{ margin-top: 40px; }
+  #optpk .client-track{ animation-duration: 38s; }
+  #optpk .client-logo{ margin-right: 48px; }
+  #optpk .client-logo img{ height: calc(var(--h, 44) * .58px); }
+  #optpk .client-word{ gap: 7px; font-size: 19px; }
+  #optpk .client-word svg{ width: 20px; height: 20px; }
+  #optpk .client-label{ margin-top: 40px; }
+  #optpk .client-label + .client-slider{ margin-top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #optpk .client-slider{ overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  #optpk .client-track{ animation: none; }
+  #optpk .client-dup{ display: none; }
+}
+/* Green underline on the small line above a heading, for sections whose heading has no green highlight. */
+#optpk .eyebrow-line{ text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+/* ---------- Custom stripe icons ---------- */
+#optpk svg.s-icon{ width: 40px; height: 40px; flex-shrink: 0; display: block; }
+#optpk .measure-row svg.s-icon{ width: 36px; height: 36px; }
+#optpk .industry svg.s-icon{ width: 30px; height: 30px; }
+#optpk .why-item svg.s-icon{ width: 40px; height: 40px; }
+@media (max-width: 640px) {
+  #optpk svg.s-icon{ width: 36px; height: 36px; }
+  #optpk .industry svg.s-icon{ width: 26px; height: 26px; }
+}
+/* Bullet dot (replaces the check marks): small version of the logo O. */
+#optpk .sdot{ width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(to bottom, var(--ink) 0 58%, var(--signal) 58% 100%); }
+#optpk .dark-section .sdot{ background: linear-gradient(to bottom, var(--paper) 0 58%, var(--signal) 58% 100%); }
+/* ---------- Process steps: vertical divider lines between the columns ---------- */
+#optpk .process-step{ border-top: 0; padding-top: 0; border-right: 1px solid rgba(21,21,21,.28); }
+@media (max-width: 1023.98px) {
+  #optpk .process-step{ padding-right: 18px; }
+  #optpk .process-step:nth-child(even){ border-right: 0; padding-right: 0; }
+}
+/* ---------- Industries section on black ---------- */
+#optpk #industries{ background: var(--ink); color: var(--paper); }
+#optpk #industries .eyebrow, #optpk #industries .section-heading, #optpk #industries .industry{ color: var(--paper); }
+#optpk #industries .section-number, #optpk #industries .industry svg{ color: var(--signal); }
+#optpk #industries .section-copy{ color: var(--dark-muted); }
+#optpk #industries .industry{ border-bottom-color: rgba(255,255,255,.16); }
+/* ---------- CTA strip: photo, one line, one button (sits at the end of a section) ---------- */
+#optpk .cta-strip{ display: flex; align-items: center; gap: 24px; max-width: 780px; margin: 64px auto 0; padding: 14px 22px 14px 14px; border: 1px solid var(--signal); border-radius: 32px; background: #fff; }
+#optpk .cta-strip-photo{ width: 92px; height: 92px; flex-shrink: 0; border-radius: 50%; overflow: hidden; }
+#optpk .cta-strip-photo img{ width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); }
+#optpk .cta-strip-text{ flex: 1 1 0; min-width: 0; margin: 0; font-size: 22px; font-weight: 500; line-height: 1.3; color: var(--foreground); }
+#optpk .cta-strip .btn{ flex: 0 0 auto; justify-content: center; white-space: nowrap; }
+@media (max-width: 640px) {
+  #optpk .cta-strip{ flex-wrap: wrap; gap: 14px; margin-top: 40px; padding: 14px; border-radius: 26px; }
+  #optpk .cta-strip-photo{ width: 64px; height: 64px; }
+  #optpk .cta-strip-text{ font-size: 17px; }
+  #optpk .cta-strip .btn{ flex: 1 1 100%; }
+}
+/* Highlighted word in a heading: green pill, dark text (works on light and dark sections). */
+#optpk .hl{ display: inline-block; padding: 0 .26em .04em; margin: 0 .04em; border-radius: .28em; background: var(--signal); color: var(--ink); white-space: nowrap; }
+@media (max-width: 1024px) { #optpk .section-heading{ font-size: 32px; } }
+@media (max-width: 640px) { #optpk .section-heading{ font-size: 25px; } }
+#optpk section[id] { scroll-margin-top: 90px; }
+
+</style>
+<div id="optpk">
+  <!-- Brand mark, defined once and reused with <svg class="brand-o"><use href="#optpk-logo" /></svg>.
+       Colours come from --logo-top / --logo-base (see "Brand mark" in the CSS for which version goes on which background). -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Gemini brand gradient, used by the platform band logo. -->
+      <linearGradient id="optpk-gemini" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#4285f4" />
+        <stop offset=".5" stop-color="#9b72cb" />
+        <stop offset="1" stop-color="#d96570" />
+      </linearGradient>
+      <!-- Custom stripe icons (black stripes on top, green at the bottom). Use: <svg class="s-icon"><use href="#si-seo" /></svg> -->
+<!--SI-START-->
+<pattern id="si-k" width="48" height="4.2" patternUnits="userSpaceOnUse"><rect width="48" height="2.6" fill="#151515"/></pattern>
+<pattern id="si-g" width="48" height="4.2" patternUnits="userSpaceOnUse"><rect width="48" height="2.6" fill="#00c26e"/></pattern>
+<mask id="si-m-seo" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><circle fill="#fff" cx="20" cy="20" r="15"/><circle cx="20" cy="20" r="6.5" fill="#000"/></mask>
+<symbol id="si-seo" viewBox="0 0 48 48"><g mask="url(#si-m-seo)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M31.5 31.5 43 43" stroke="#00c26e" stroke-width="5.5" stroke-linecap="round"/></symbol>
+<mask id="si-m-geo" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="4" y="6" width="40" height="29" rx="8"/><path fill="#fff" d="M11 34 8 44 22 34z"/><rect x="14" y="13" width="20" height="15" rx="4" fill="#000"/></mask>
+<symbol id="si-geo" viewBox="0 0 48 48"><g mask="url(#si-m-geo)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><text x="24" y="24.2" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="700" font-size="9" fill="#151515">AI</text></symbol>
+<mask id="si-m-aeo" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><circle fill="#fff" cx="24" cy="24" r="20"/><circle cx="24" cy="24" r="10.5" fill="#000"/></mask>
+<symbol id="si-aeo" viewBox="0 0 48 48"><g mask="url(#si-m-aeo)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M19 24.5l3.6 3.6L29.5 21" fill="none" stroke="#151515" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<mask id="si-m-search-visibility" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M24 4 43 23H32v21H16V23H5z"/></mask>
+<symbol id="si-search-visibility" viewBox="0 0 48 48"><g mask="url(#si-m-search-visibility)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-ai-presence" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="4" y="6" width="40" height="29" rx="8"/><path fill="#fff" d="M37 34l3 10-14-10z"/><rect x="13" y="12" width="22" height="17" rx="4" fill="#000"/></mask>
+<symbol id="si-ai-presence" viewBox="0 0 48 48"><g mask="url(#si-m-ai-presence)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M18.5 25v-3.5c0-2.5 1.2-4 3.2-4.6M26.5 25v-3.5c0-2.5 1.2-4 3.2-4.6" fill="none" stroke="#151515" stroke-width="2.6" stroke-linecap="round"/></symbol>
+<mask id="si-m-business-impact" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="5" y="28" width="10" height="17" rx="2"/><rect fill="#fff" x="19" y="17" width="10" height="28" rx="2"/><rect fill="#fff" x="33" y="6" width="10" height="39" rx="2"/></mask>
+<symbol id="si-business-impact" viewBox="0 0 48 48"><g mask="url(#si-m-business-impact)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-ecommerce" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M7 16h34l-3 28H10z"/></mask>
+<symbol id="si-ecommerce" viewBox="0 0 48 48"><g mask="url(#si-m-ecommerce)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M17 18v-5a7 7 0 0 1 14 0v5" fill="none" stroke="#151515" stroke-width="3" stroke-linecap="round"/></symbol>
+<mask id="si-m-saas-technology" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="8" y="7" width="32" height="25" rx="3"/></mask>
+<symbol id="si-saas-technology" viewBox="0 0 48 48"><g mask="url(#si-m-saas-technology)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><rect x="3" y="35" width="42" height="6" rx="3" fill="#00c26e"/></symbol>
+<mask id="si-m-real-estate" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="10" y="4" width="28" height="41" rx="2"/><rect x="16" y="10" width="5" height="5" rx="1" fill="#000"/><rect x="27" y="10" width="5" height="5" rx="1" fill="#000"/><rect x="16" y="19" width="5" height="5" rx="1" fill="#000"/><rect x="27" y="19" width="5" height="5" rx="1" fill="#000"/><rect x="20" y="33" width="8" height="12" rx="1" fill="#000"/></mask>
+<symbol id="si-real-estate" viewBox="0 0 48 48"><g mask="url(#si-m-real-estate)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-healthcare" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M24 43S4 31 4 17.5A10 10 0 0 1 24 12a10 10 0 0 1 20 5.5C44 31 24 43 24 43z"/><g fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 25h8l3.5-6 5 12 3.5-6h12"/></g></mask>
+<symbol id="si-healthcare" viewBox="0 0 48 48"><g mask="url(#si-m-healthcare)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-education" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M24 7 46 17 24 27 2 17z"/><path fill="#fff" d="M11 22v11c0 4 6 8 13 8s13-4 13-8V22l-13 6z"/></mask>
+<symbol id="si-education" viewBox="0 0 48 48"><g mask="url(#si-m-education)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M41 19v12" stroke="#151515" stroke-width="2.5" stroke-linecap="round"/><circle cx="41" cy="33" r="2.6" fill="#151515"/></symbol>
+<mask id="si-m-location-pin" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M24 3a15 15 0 0 1 15 15c0 11-15 27-15 27S9 29 9 18A15 15 0 0 1 24 3z"/><circle cx="24" cy="18" r="6" fill="#000"/></mask>
+<symbol id="si-location-pin" viewBox="0 0 48 48"><g mask="url(#si-m-location-pin)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-travel" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><rect fill="#fff" x="5" y="15" width="38" height="28" rx="5"/><path d="M5 26h38" stroke="#000" stroke-width="2"/></mask>
+<symbol id="si-travel" viewBox="0 0 48 48"><g mask="url(#si-m-travel)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M17 15v-5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5" fill="none" stroke="#151515" stroke-width="3" stroke-linejoin="round"/></symbol>
+<mask id="si-m-manufacturing-export" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M4 44V21l11 7v-7l11 7v-7l11 7V6h7v38z"/><rect x="10" y="34" width="4" height="5" fill="#000"/><rect x="20" y="34" width="4" height="5" fill="#000"/><rect x="30" y="34" width="4" height="5" fill="#000"/></mask>
+<symbol id="si-manufacturing-export" viewBox="0 0 48 48"><g mask="url(#si-m-manufacturing-export)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-connected" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><circle fill="#fff" cx="16" cy="24" r="12.5"/><circle fill="#fff" cx="32" cy="24" r="12.5"/><circle cx="16" cy="24" r="6" fill="#000"/><circle cx="32" cy="24" r="6" fill="#000"/></mask>
+<symbol id="si-connected" viewBox="0 0 48 48"><g mask="url(#si-m-connected)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<mask id="si-m-compass-global" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><circle fill="#fff" cx="24" cy="24" r="20"/><path d="M24 9 29.5 24 24 39 18.5 24z" fill="#000"/></mask>
+<symbol id="si-compass-global" viewBox="0 0 48 48"><g mask="url(#si-m-compass-global)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><circle cx="24" cy="24" r="2.6" fill="#151515"/></symbol>
+<mask id="si-m-long-game" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48"><path fill="#fff" d="M4 44V34h10V24h10V14h10V4h10v40z"/></mask>
+<symbol id="si-long-game" viewBox="0 0 48 48"><g mask="url(#si-m-long-game)"><rect width="48" height="30" fill="url(#si-k)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<!-- White-stripe versions (ids end in -d) for dark backgrounds. -->
+<pattern id="si-w" width="48" height="4.2" patternUnits="userSpaceOnUse"><rect width="48" height="2.6" fill="#ffffff"/></pattern>
+<symbol id="si-ecommerce-d" viewBox="0 0 48 48"><g mask="url(#si-m-ecommerce)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M17 18v-5a7 7 0 0 1 14 0v5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="si-saas-technology-d" viewBox="0 0 48 48"><g mask="url(#si-m-saas-technology)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><rect x="3" y="35" width="42" height="6" rx="3" fill="#00c26e"/></symbol>
+<symbol id="si-real-estate-d" viewBox="0 0 48 48"><g mask="url(#si-m-real-estate)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<symbol id="si-healthcare-d" viewBox="0 0 48 48"><g mask="url(#si-m-healthcare)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<symbol id="si-education-d" viewBox="0 0 48 48"><g mask="url(#si-m-education)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M41 19v12" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/><circle cx="41" cy="33" r="2.6" fill="#ffffff"/></symbol>
+<symbol id="si-location-pin-d" viewBox="0 0 48 48"><g mask="url(#si-m-location-pin)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<symbol id="si-travel-d" viewBox="0 0 48 48"><g mask="url(#si-m-travel)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g><path d="M17 15v-5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/></symbol>
+<symbol id="si-manufacturing-export-d" viewBox="0 0 48 48"><g mask="url(#si-m-manufacturing-export)"><rect width="48" height="30" fill="url(#si-w)"/><rect y="30" width="48" height="18" fill="url(#si-g)"/></g></symbol>
+<!--SI-END-->
+      <mask id="optpk-logo-ring" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+        <circle cx="50" cy="50" r="50" fill="#fff" />
+        <circle cx="50" cy="50" r="25.6" fill="#000" />
+      </mask>
+      <symbol id="optpk-logo" viewBox="0 0 100 100">
+        <g mask="url(#optpk-logo-ring)">
+          <g style="fill:var(--logo-top, #151515)">
+            <rect x="0" y="0" width="100" height="6.4" />
+            <rect x="0" y="9.1" width="100" height="6.4" />
+            <rect x="0" y="18.2" width="100" height="6.4" />
+            <rect x="0" y="27.3" width="100" height="6.4" />
+            <rect x="0" y="36.4" width="100" height="6.4" />
+            <rect x="0" y="45.5" width="100" height="6.4" />
+            <rect x="0" y="54.6" width="100" height="6.4" />
+          </g>
+          <g style="fill:var(--logo-base, #00c26e)">
+            <rect x="0" y="63.7" width="100" height="6.4" />
+            <rect x="0" y="72.8" width="100" height="6.4" />
+            <rect x="0" y="81.9" width="100" height="6.4" />
+            <rect x="0" y="91" width="100" height="9" />
+          </g>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+<div id="top"></div>
+  <main>
+    <!-- ================= Hero ================= -->
+    <section class="hero-ai" aria-label="Welcome to Optimization.pk">
+      <div class="eyebrow">Built for the next era of search</div>
+      <!-- The HTML always says "Search Engine Optimization"; the script only swaps the words on screen. aria-label keeps the heading text fixed for screen readers. -->
+      <h1 aria-label="Best Search Engine Optimization Company in Pakistan">Best <span class="rot"><em id="rotating-word" class="rotate-in">Search Engine Optimization</em></span><br />Company in Pakistan</h1>
+      <p class="copy">Optimization.pk is a results-driven SEO agency in Pakistan, helping businesses rank on Google and get cited by ChatGPT, Gemini and Claude. When customers ask, your brand should be the answer.</p>
+      <div class="btns">
+        <a class="btn ink" href="#contact">Build my growth strategy ↗</a>
+        <a class="btn" href="#services">Explore our services →</a>
+      </div>
+
+      <div class="chat" aria-hidden="true">
+        <div class="chat-bar"><i></i><i></i><i></i><span>AI assistant</span><small>Example</small></div>
+        <div class="chat-body">
+          <div class="msg-user"><span id="hero-chat-q"></span><span class="caret"></span></div>
+          <div class="msg-ai" id="hero-chat-a">
+            <div class="av">✦</div>
+            <div>
+              <p id="hero-chat-ans"></p>
+              <div class="sources" id="hero-chat-src"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="chat-note">Illustrative example of how a brand can appear in AI answers</p>
+    </section>
+
+    <!-- ================= Platform band ================= -->
+    <section class="platform-band">
+      <div class="container-site">
+        <p class="band-label">YOUR NEXT CUSTOMER IS SEARCHING HERE</p>
+        <div class="platform-words">
+          <span class="platform-word"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" /><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z" /><path fill="#fbbc05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z" /><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z" /></svg>Google</span>
+          <span class="platform-word"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#d97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" /></svg>Claude</span>
+          <span class="platform-word"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" /></svg>ChatGPT</span>
+          <span class="platform-word"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="url(#optpk-gemini)" aria-hidden="true"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" /></svg>Gemini</span>
+          <span class="platform-word"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#20808d" aria-hidden="true"><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z" /></svg>Perplexity</span>
+          <!-- Copies below are only shown on mobile, to make the slider loop seamlessly. -->
+          <span class="platform-word platform-dup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" /><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z" /><path fill="#fbbc05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z" /><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z" /></svg>Google</span>
+          <span class="platform-word platform-dup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#d97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" /></svg>Claude</span>
+          <span class="platform-word platform-dup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#10a37f" aria-hidden="true"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" /></svg>ChatGPT</span>
+          <span class="platform-word platform-dup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="url(#optpk-gemini)" aria-hidden="true"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" /></svg>Gemini</span>
+          <span class="platform-word platform-dup" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#20808d" aria-hidden="true"><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z" /></svg>Perplexity</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 01 · Search has changed ================= -->
+    <section class="section" id="search-era">
+      <div class="container-site split-2">
+        <div>
+          <div class="eyebrow">Search has changed. Have you?</div>
+          <h2 class="section-heading">The next click<br /><span class="hl">might not</span> be a click</h2>
+        </div>
+        <div class="search-era-right">
+          <p class="section-copy">People don’t just search anymore. They ask, compare, and decide inside AI conversations. Your brand needs to show up in all of them.</p>
+          <p class="section-copy" style="margin-top:20px;">We bring SEO, GEO, and AEO together to build visibility that goes beyond rankings and turns discovery into meaningful growth.</p>
+          <a href="#services" class="alt-link" style="margin-top:24px; display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:500; color:var(--deep-green);">Meet your next search strategy <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a>
+        </div>
+      </div>
+      <div class="container-site">
+        <ul class="trust-strip" role="list" style="list-style:none; padding:0;">
+          <li class="trust-item">100+ SEO &amp; Optimization Campaigns Delivered</li>
+          <li class="trust-item">Ranking Businesses on Google, ChatGPT &amp; AI Search</li>
+          <li class="trust-item">Experts in SEO, AEO, GEO &amp; Local SEO</li>
+          <li class="trust-item">Trusted by Businesses Across Pakistan &amp; Abroad</li>
+        </ul>
+        <!-- CTA strip. Photo: upload zain-ali-seo-expert-avatar.webp and swap the src for its URL. -->
+        <div class="cta-strip">
+          <div class="cta-strip-photo"><img src="https://optimization.pk/wp-content/uploads/2026/10/zain-ali-avatar.png" alt="Zain Ali, SEO expert and founder of Optimization.pk" width="84" height="84" loading="lazy" /></div>
+          <p class="cta-strip-text">Is AI recommending your brand?</p>
+          <a href="#contact" class="btn btn-brand btn-lg">Check My AI Visibility</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 02 · Services ================= -->
+    <section class="section bg-muted" id="services">
+      <div class="container-site">
+        <div class="section-lede">
+          <div>
+            <div class="eyebrow eyebrow-line">Three disciplines. One growth engine.</div>
+            <h2 class="section-heading">Be found. Be the answer.<br />Be the first choice</h2>
+          </div>
+          <p class="section-copy" style="max-width:320px;">Not disconnected tactics. A search ecosystem built around your business.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-card-top">
+              <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-seo" /></svg>
+              <span class="short">SEO</span>
+            </div>
+            <h3>Search Engine Optimization</h3>
+            <p class="service-text">Turn searches into discovery. Build a strong organic presence where your customers are already looking.</p>
+            <ul class="feature-list">
+              <li><span class="sdot" aria-hidden="true"></span>Technical &amp; on-page SEO</li>
+              <li><span class="sdot" aria-hidden="true"></span>Content &amp; topical authority</li>
+              <li><span class="sdot" aria-hidden="true"></span>Local &amp; e-commerce SEO</li>
+            </ul>
+            <a href="#seo" class="service-link">Explore SEO <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a>
+          </article>
+          <article class="service-card">
+            <div class="service-card-top">
+              <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-geo" /></svg>
+              <span class="short">GEO</span>
+            </div>
+            <h3>Generative Engine Optimization</h3>
+            <p class="service-text">Become part of the answer. Position your brand for discovery inside AI-generated recommendations.</p>
+            <ul class="feature-list">
+              <li><span class="sdot" aria-hidden="true"></span>AI visibility &amp; brand citations</li>
+              <li><span class="sdot" aria-hidden="true"></span>Entity &amp; authority building</li>
+              <li><span class="sdot" aria-hidden="true"></span>AI-ready content strategy</li>
+            </ul>
+            <a href="#geo" class="service-link">Explore GEO <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a>
+          </article>
+          <article class="service-card">
+            <div class="service-card-top">
+              <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-aeo" /></svg>
+              <span class="short">AEO</span>
+            </div>
+            <h3>Answer Engine Optimization</h3>
+            <p class="service-text">Be the clearest answer. Create helpful, structured content that answers real customer questions.</p>
+            <ul class="feature-list">
+              <li><span class="sdot" aria-hidden="true"></span>Featured snippet optimization</li>
+              <li><span class="sdot" aria-hidden="true"></span>Structured data &amp; FAQs</li>
+              <li><span class="sdot" aria-hidden="true"></span>Conversational search</li>
+            </ul>
+            <a href="#aeo" class="service-link">Explore AEO <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 03 · Testimonials ================= -->
+    <!-- SAMPLE CARDS - for each real client replace:
+         - href            : link to the testimonial video (opens in a new tab)
+         - .t-name         : client name
+         - .t-title        : Agency Owner / Founder / CEO
+         - .t-logo         : swap the placeholder for <img src="LOGO-URL" alt="Company name" />
+         - .t-photo        : swap the placeholder icon for <img src="PHOTO-OR-VIDEO-THUMBNAIL-URL" alt="" />
+         Copy a whole <a class="testimonial-card">…</a> block to add another client. -->
+    <section class="section" id="testimonials">
+      <div class="container-site">
+        <div class="split-2 testimonial-head">
+          <div>
+            <div class="eyebrow">Client stories</div>
+            <h2 class="section-heading">Real Clients<br />Real <span class="hl">Results</span></h2>
+          </div>
+          <div class="testimonial-intro">
+            <p class="section-copy">Business owners and agency partners share what it’s like to grow with Optimization.pk, from higher Google rankings to showing up in AI answers.</p>
+            <ul class="testimonial-points" role="list">
+              <li><span class="sdot" aria-hidden="true"></span>Growth you can measure</li>
+              <li><span class="sdot" aria-hidden="true"></span>Visibility on Google and AI search</li>
+            </ul>
+          </div>
+        </div>
+        <div class="testimonial-grid">
+          <a class="testimonial-card" href="#testimonials" aria-label="Watch the video testimonial from Client Name, Agency Owner">
+            <span class="t-photo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 24v-2.5C3 17.400 7 15 12 15s9 2.400 9 6.500V24z" /></svg></span>
+            <span class="t-panel">
+              <span class="t-name">Client Name</span>
+              <span class="t-title">Agency Owner</span>
+              <span class="t-logo">Company logo</span>
+              <svg class="brand-o" aria-hidden="true" focusable="false"><use href="#optpk-logo" /></svg>
+            </span>
+            <span class="t-play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.500v13a1 1 0 0 0 1.520.850l10.500-6.500a1 1 0 0 0 0-1.700L9.520 4.650A1 1 0 0 0 8 5.500z" /></svg></span>
+          </a>
+          <a class="testimonial-card" href="#testimonials" aria-label="Watch the video testimonial from Client Name, Founder and CEO">
+            <span class="t-photo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 24v-2.5C3 17.400 7 15 12 15s9 2.400 9 6.500V24z" /></svg></span>
+            <span class="t-panel">
+              <span class="t-name">Client Name</span>
+              <span class="t-title">Founder &amp; CEO</span>
+              <span class="t-logo">Company logo</span>
+              <svg class="brand-o" aria-hidden="true" focusable="false"><use href="#optpk-logo" /></svg>
+            </span>
+            <span class="t-play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.500v13a1 1 0 0 0 1.520.850l10.500-6.500a1 1 0 0 0 0-1.700L9.520 4.650A1 1 0 0 0 8 5.500z" /></svg></span>
+          </a>
+        </div>
+        <!-- Client logo slider. To add a client: add one <span class="client-logo"> to the first list
+             AND the same line with class "client-dup" to the second list (the copy makes the loop seamless).
+             Logos are in the WP Media Library (wp-content/uploads/2026/10/). -->
+        <p class="client-label">Companies we work with</p>
+        <div class="client-slider" aria-label="Companies we have worked with">
+          <div class="client-track">
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/share-archiver.png" alt="ShareArchiver" width="229" height="45" style="--h:45" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/covers-in-play.png" alt="Covers in Play" width="867" height="246" style="--h:48" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/msafely.png" alt="Msafely" width="225" height="44" style="--h:44" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/usa-today.png" alt="USA Today" width="234" height="43" style="--h:43" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/flairstech.png" alt="Flairstech" width="225" height="42" style="--h:42" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/ai-studios.png" alt="AI Studios by DeepBrain AI" width="212" height="53" style="--h:42" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/byte-dance.png" alt="ByteDance" width="234" height="40" style="--h:40" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/capcut.png" alt="CapCut" width="229" height="44" style="--h:44" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/stickeryou.png" alt="StickerYou" width="149" height="97" style="--h:56" loading="lazy" /></span>
+            <span class="client-logo client-mono"><img src="https://optimization.pk/wp-content/uploads/2026/10/postex.webp" alt="PostEx" width="640" height="144" style="--h:34" loading="lazy" /></span>
+            <span class="client-logo"><img src="https://optimization.pk/wp-content/uploads/2026/10/wayken.png" alt="Wayken Rapid Manufacturing" width="195" height="61" style="--h:56" loading="lazy" /></span>
+            <!-- Copies below make the loop seamless. -->
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/share-archiver.png" alt="" width="229" height="45" style="--h:45" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/covers-in-play.png" alt="" width="867" height="246" style="--h:48" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/msafely.png" alt="" width="225" height="44" style="--h:44" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/usa-today.png" alt="" width="234" height="43" style="--h:43" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/flairstech.png" alt="" width="225" height="42" style="--h:42" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/ai-studios.png" alt="" width="212" height="53" style="--h:42" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/byte-dance.png" alt="" width="234" height="40" style="--h:40" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/capcut.png" alt="" width="229" height="44" style="--h:44" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/stickeryou.png" alt="" width="149" height="97" style="--h:56" loading="lazy" /></span>
+            <span class="client-logo client-dup client-mono" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/postex.webp" alt="" width="640" height="144" style="--h:34" loading="lazy" /></span>
+            <span class="client-logo client-dup" aria-hidden="true"><img src="https://optimization.pk/wp-content/uploads/2026/10/wayken.png" alt="" width="195" height="61" style="--h:56" loading="lazy" /></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 06 · Approach ================= -->
+    <section class="section bg-muted" id="approach">
+      <div class="container-site">
+        <div class="eyebrow eyebrow-line">A clear path forward</div>
+        <div class="section-lede" style="margin-top:18px;">
+          <h2 class="section-heading" style="margin-top:0;">No guesswork<br />Just a smarter process</h2>
+          <p class="section-copy" style="max-width:384px;">A practical roadmap from where you are to where your business needs to be.</p>
+        </div>
+        <div class="process-grid">
+          <div class="process-step">
+            <span class="big-number">01<span class="dot">.</span></span>
+            <h3>Discover</h3>
+            <p class="section-copy">We understand your business, your audience, and your current search footprint.</p>
+          </div>
+          <div class="process-step">
+            <span class="big-number">02<span class="dot">.</span></span>
+            <h3>Strategize</h3>
+            <p class="section-copy">We connect opportunities to a focused SEO, GEO, and AEO roadmap.</p>
+          </div>
+          <div class="process-step">
+            <span class="big-number">03<span class="dot">.</span></span>
+            <h3>Optimize</h3>
+            <p class="section-copy">We strengthen your site, your content, and the signals that build authority.</p>
+          </div>
+          <div class="process-step">
+            <span class="big-number">04<span class="dot">.</span></span>
+            <h3>Evolve</h3>
+            <p class="section-copy">We measure what matters, learn from the data, and keep moving forward.</p>
+          </div>
+        </div>
+        <div class="cta-strip">
+          <div class="cta-strip-photo"><img src="https://optimization.pk/wp-content/uploads/2026/10/zain-ali-avatar.png" alt="Zain Ali, SEO expert and founder of Optimization.pk" width="84" height="84" loading="lazy" /></div>
+          <p class="cta-strip-text">Step one is free. Let’s start.</p>
+          <a href="#contact" class="btn btn-brand btn-lg">Book Free Audit</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 07 · Measurement ================= -->
+    <section class="section" id="measurement">
+      <div class="container-site split-2" style="align-items:center;">
+        <div>
+          <div class="eyebrow">Visibility with accountability</div>
+          <h2 class="section-heading">Less vanity<br />More <span class="hl">clarity</span></h2>
+          <p class="section-copy" style="margin-top:20px;">Rankings are a signal, not the entire story. We connect search performance to qualified discovery and meaningful business outcomes.</p>
+          <ul class="feature-list">
+            <li><span class="sdot" aria-hidden="true"></span>Understand which searches bring relevant visitors</li>
+            <li><span class="sdot" aria-hidden="true"></span>Monitor brand mentions and AI citations</li>
+            <li><span class="sdot" aria-hidden="true"></span>Connect visibility to inquiries and conversions</li>
+          </ul>
+        </div>
+        <div class="measure-rows">
+          <div class="measure-row">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-search-visibility" /></svg>
+            <div><h3>Search visibility</h3><p>Organic discovery &amp; relevant rankings</p></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="go"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg>
+          </div>
+          <div class="measure-row">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-ai-presence" /></svg>
+            <div><h3>AI presence</h3><p>Brand mentions &amp; source citations</p></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="go"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg>
+          </div>
+          <div class="measure-row">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-business-impact" /></svg>
+            <div><h3>Business impact</h3><p>Qualified traffic &amp; conversion signals</p></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="go"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 08 · Industries ================= -->
+    <section class="section bg-ink" id="industries">
+      <div class="container-site split-2">
+        <div>
+          <div class="eyebrow eyebrow-line">Different businesses. Shared ambition.</div>
+          <h2 class="section-heading">Your industry<br />Your opportunity</h2>
+          <p class="section-copy" style="margin-top:20px; max-width:384px;">Search isn’t one-size-fits-all. Your market, buying journey, and audience shape the strategy we build.</p>
+          <div style="margin-top:28px;"><a href="#contact" class="btn btn-brand btn-lg">Find your growth opportunity <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a></div>
+        </div>
+        <div class="industries-grid">
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-ecommerce-d" /></svg><span>E-commerce</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-saas-technology-d" /></svg><span>SaaS &amp; technology</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-real-estate-d" /></svg><span>Real estate</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-healthcare-d" /></svg><span>Healthcare</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-education-d" /></svg><span>Education</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-location-pin-d" /></svg><span>Local businesses</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-travel-d" /></svg><span>Travel</span></div>
+          <div class="industry"><svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-manufacturing-export-d" /></svg><span>Manufacturing &amp; Export</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 09 · Why us ================= -->
+    <section class="section" id="why-us">
+      <div class="container-site">
+        <div class="eyebrow">The Optimization.pk difference</div>
+        <h2 class="section-heading" style="max-width:768px;">Why We’re the Best<br /><span class="hl">SEO Agency</span> in Pakistan</h2>
+        <div class="why-grid">
+          <div class="why-item">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-connected" /></svg>
+            <h3>Connected by design</h3>
+            <p class="section-copy">SEO, GEO, and AEO working together. One strategy, not three disconnected services.</p>
+          </div>
+          <div class="why-item">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-compass-global" /></svg>
+            <h3>Local insight. Global perspective.</h3>
+            <p class="section-copy">Rooted in Lahore. A search strategy shaped around your market, wherever your audience is.</p>
+          </div>
+          <div class="why-item">
+            <svg class="s-icon" aria-hidden="true" focusable="false"><use href="#si-long-game" /></svg>
+            <h3>Built for the long game</h3>
+            <p class="section-copy">Useful content, sound foundations, and transparent measurement. No shortcuts. No ranking promises.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Meet the founder ================= -->
+    <section class="section founder" id="founder">
+      <div class="container-site split-2 founder-grid">
+        <div class="founder-copy">
+          <div class="eyebrow eyebrow-line"><span class="status-dot"></span>Meet the founder</div>
+          <h2 class="section-heading">Zain Ali - Optimization Expert</h2>
+          <p class="section-copy">Zain Ali is an SEO specialist with 5+ years of experience. He started in link building for global brands, and today helps businesses get found on Google and cited by AI platforms like ChatGPT, Gemini, and Perplexity.</p>
+          <p class="section-copy">A Top-Rated Plus freelancer on Upwork with a 100% Job Success Score and 150+ completed projects, he leads Optimization.pk with one connected SEO, AEO, and GEO strategy, focused on real visibility and qualified leads.</p>
+          <a href="#contact" class="btn btn-ink btn-lg founder-cta">Let’s Talk <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" />
+  <path d="m12 5 7 7-7 7" /></svg></a>
+        </div>
+        <div class="founder-photo">
+          <img src="https://optimization.pk/wp-content/uploads/2026/10/zain-ali-founder.png" alt="Zain Ali, founder of Optimization.pk and Top Rated Plus freelancer on Upwork" width="723" height="1024" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 10 · Insights ================= -->
+    <section class="section bg-muted" id="insights">
+      <div class="container-site">
+        <div class="insights-head">
+          <div>
+            <div class="eyebrow">Ideas for what’s next</div>
+            <h2 class="section-heading">Stay <span class="hl">ahead</span> of search</h2>
+          </div>
+          <span class="side-note">The Optimization.pk perspective</span>
+        </div>
+        <div class="insights-grid">
+          <article class="insight-card">
+            <div class="insight-art bg-paper">
+              <div class="chart"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5H19V11" />
+  <path d="M19 5L5 19" /></svg></div>
+            </div>
+            <div class="insight-body">
+              <p class="insight-tag">THE FUTURE OF SEARCH</p>
+              <h3>SEO isn’t dead. It’s evolving.</h3>
+              <button class="btn btn-link insight-open" data-insight="0">Read insight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></button>
+            </div>
+          </article>
+          <article class="insight-card">
+            <div class="insight-art bg-ink">
+              <div class="on-dark"><svg class="brand-o" aria-hidden="true" focusable="false"><use href="#optpk-logo" /></svg></div>
+            </div>
+            <div class="insight-body">
+              <p class="insight-tag">GENERATIVE ENGINE OPTIMIZATION</p>
+              <h3>What makes a brand AI-ready?</h3>
+              <button class="btn btn-link insight-open" data-insight="1">Read insight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></button>
+            </div>
+          </article>
+          <article class="insight-card">
+            <div class="insight-art bg-accent">
+              <span class="outline-letters">AEO</span>
+            </div>
+            <div class="insight-body">
+              <p class="insight-tag">ANSWER ENGINE OPTIMIZATION</p>
+              <h3>Be the answer, not another link.</h3>
+              <button class="btn btn-link insight-open" data-insight="2">Read insight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= Insight modal ================= -->
+  <div class="modal-overlay" id="insight-modal" role="presentation">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <span class="modal-tag" id="modal-tag"></span>
+        <button class="btn btn-ghost btn-icon modal-close" id="modal-close" aria-label="Close insight"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></svg></button>
+      </div>
+      <h2 class="section-heading" id="modal-title" style="font-size:32px;"></h2>
+      <p class="section-copy" id="modal-text"></p>
+      <div class="modal-cta"><a href="#contact" class="btn btn-ink btn-lg" id="modal-cta">Let’s talk strategy <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10" />
+  <path d="M7 17 17 7" /></svg></a></div>
+    </div>
+  </div>
+</div>
+<script>
+/* Optimization.pk - interactivity (ported from the React components) */
+(function () {
+  'use strict';
+
+  /* ---------- Rotating hero specialty ---------- */
+  var specialties = [
+    'Search Engine Optimization',
+    'Generative Engine Optimization',
+    'Answer Engine Optimization'
+  ];
+  var wordEl = document.getElementById('rotating-word');
+  var idx = 0;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (wordEl && !reduceMotion) {
+    setInterval(function () {
+      idx = (idx + 1) % specialties.length;
+      wordEl.classList.remove('rotate-in');
+      void wordEl.offsetWidth; // restart animation
+      wordEl.textContent = specialties[idx];
+      wordEl.classList.add('rotate-in');
+    }, 1700);
+  }
+
+  /* ---------- Hero chat demo ---------- */
+  (function () {
+    var examples = [
+      { q: 'Which is the best restaurant in Lahore for a family dinner?',
+        brand: 'Your Restaurant', site: 'yourrestaurant.pk',
+        a: ' is a popular choice, known for its family-friendly setting, great reviews and an easy online menu.' },
+      { q: 'Best dental clinic in Karachi for teeth whitening?',
+        brand: 'Your Clinic', site: 'yourclinic.pk',
+        a: ' is often recommended for its experienced dentists, clear pricing and strong patient reviews.' },
+      { q: 'Which real estate agency in Islamabad is trustworthy?',
+        brand: 'Your Agency', site: 'youragency.pk',
+        a: ' stands out for verified listings, helpful property guides and positive client feedback.' }
+    ];
+    var qEl = document.getElementById('hero-chat-q'), aBox = document.getElementById('hero-chat-a'),
+        ans = document.getElementById('hero-chat-ans'), src = document.getElementById('hero-chat-src');
+    if (!qEl || !aBox || !ans || !src) return;
+    var i = 0;
+
+    function fill(ex) {
+      ans.innerHTML = 'Here are some trusted options. <mark>' + ex.brand + '</mark>' + ex.a;
+      src.innerHTML = '<span>● ' + ex.site + '</span><span>Source 2</span><span>Source 3</span>';
+    }
+
+    function run() {
+      var ex = examples[i % examples.length]; i++;
+      aBox.classList.remove('show'); qEl.textContent = '';
+      if (reduceMotion) { qEl.textContent = ex.q; fill(ex); aBox.classList.add('show'); return; }
+      var c = 0;
+      var t = setInterval(function () {
+        qEl.textContent = ex.q.slice(0, ++c);
+        if (c >= ex.q.length) {
+          clearInterval(t);
+          setTimeout(function () { fill(ex); aBox.classList.add('show'); }, 500);
+          setTimeout(run, 6000);
+        }
+      }, 45);
+    }
+    run();
+  })();
+
+  /* ---------- Insight modal ---------- */
+  var insights = [
+    {
+      tag: 'THE FUTURE OF SEARCH',
+      title: 'SEO isn\u2019t dead. It\u2019s evolving.',
+      text: 'Search is expanding, not disappearing. Customers still use Google, but they also ask AI tools for recommendations. The strongest strategy keeps the technical foundations of SEO and adds clear, helpful content that machines and people can understand. Rankings remain important; they are no longer the only measure of discovery.'
+    },
+    {
+      tag: 'GENERATIVE ENGINE OPTIMIZATION',
+      title: 'What makes a brand AI-ready?',
+      text: 'An AI-ready brand is easy to identify and easy to verify. Consistent information, expert-led content and credible references help platforms understand what you do. Structured pages and accessible text make that information easier to interpret. The goal is trustworthy visibility, not tricks or guaranteed placements.'
+    },
+    {
+      tag: 'ANSWER ENGINE OPTIMIZATION',
+      title: 'Be the answer, not another link.',
+      text: 'Start with your customers\u2019 real questions. Answer them directly, explain the details and keep the information accurate. Clear headings and appropriate structured data help search platforms understand your content. A useful answer serves the reader first, whether it appears on your website, in a snippet or in an AI response.'
+    }
+  ];
+  var overlay = document.getElementById('insight-modal');
+  var modalTag = document.getElementById('modal-tag');
+  var modalTitle = document.getElementById('modal-title');
+  var modalText = document.getElementById('modal-text');
+  var closeBtn = document.getElementById('modal-close');
+
+  function openInsight(i) {
+    var item = insights[i];
+    if (!item) return;
+    modalTag.textContent = item.tag;
+    modalTitle.textContent = item.title;
+    modalText.textContent = item.text;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function closeInsight() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.insight-open').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      openInsight(parseInt(btn.getAttribute('data-insight'), 10));
+    });
+  });
+  closeBtn.addEventListener('click', closeInsight);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeInsight();
+  });
+  document.getElementById('modal-cta').addEventListener('click', closeInsight);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeInsight();
+  });
+})();
+
+</script>
