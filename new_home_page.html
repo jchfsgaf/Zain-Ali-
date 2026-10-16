@@ -124,7 +124,8 @@
 #optpk .testimonial-points li{ display: flex; align-items: center; gap: 10px; }
 #optpk .testimonial-points svg{ width: 16px; height: 16px; color: var(--signal); flex-shrink: 0; }
 #optpk .testimonial-grid{ display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 56px; }
-#optpk .testimonial-pic{ margin: 0; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); background: var(--muted); }
+#optpk .testimonial-pic{ display: block; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); background: var(--muted); transition: transform .25s, border-color .25s; }
+#optpk .testimonial-pic:hover{ transform: translateY(-5px); border-color: var(--deep-green); }
 #optpk .testimonial-pic img{ width: 100%; height: auto; display: block; }
 @media (min-width: 768px) { #optpk .testimonial-grid{ grid-template-columns: 1fr 1fr; } }
 #optpk .founder{ border-top: 1px solid var(--border); }
@@ -525,7 +526,7 @@
     </section>
 
     <!-- ================= 03 · Testimonials ================= -->
-    <!-- Testimonial pictures: to add another client, copy one <figure class="testimonial-pic"> line and change the image URL and alt text. -->
+    <!-- Testimonial pictures: to add another client, copy one <a class="testimonial-pic"> line and change the YouTube link, image URL and alt text. -->
     <section class="section" id="testimonials">
       <div class="container-site">
         <div class="split-2 testimonial-head">
@@ -542,8 +543,8 @@
           </div>
         </div>
         <div class="testimonial-grid">
-          <figure class="testimonial-pic"><img src="https://optimization.pk/wp-content/uploads/2026/10/Abdullah-Amin-scaled.jpg" alt="Abdullah Amin, Optimization.pk client" loading="lazy" /></figure>
-          <figure class="testimonial-pic"><img src="https://optimization.pk/wp-content/uploads/2026/10/Mr.-Ab-Awan-scaled.jpg" alt="Ab Awan, Optimization.pk client" loading="lazy" /></figure>
+          <a class="testimonial-pic" href="https://youtube.com/shorts/U5fcM6kGJtM" target="_blank" rel="noopener" aria-label="Watch Abdullah Amin's video testimonial on YouTube (opens in a new tab)"><img src="https://optimization.pk/wp-content/uploads/2026/10/Abdullah-Amin-scaled.jpg" alt="Abdullah Amin, Optimization.pk client" loading="lazy" /></a>
+          <a class="testimonial-pic" href="https://youtube.com/shorts/8HPz1KrVpEc" target="_blank" rel="noopener" aria-label="Watch Ab Awan's video testimonial on YouTube (opens in a new tab)"><img src="https://optimization.pk/wp-content/uploads/2026/10/Mr.-Ab-Awan-scaled.jpg" alt="Ab Awan, Optimization.pk client" loading="lazy" /></a>
         </div>
         <!-- Client logo slider. To add a client: add one <span class="client-logo"> to the first list
              AND the same line with class "client-dup" to the second list (the copy makes the loop seamless).
