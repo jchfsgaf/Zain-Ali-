@@ -124,37 +124,8 @@
 #optpk .testimonial-points li{ display: flex; align-items: center; gap: 10px; }
 #optpk .testimonial-points svg{ width: 16px; height: 16px; color: var(--signal); flex-shrink: 0; }
 #optpk .testimonial-grid{ display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 56px; }
-#optpk .testimonial-card{
-  position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
-  border-radius: 20px; border: 1px solid var(--border); color: var(--foreground);
-  background: linear-gradient(120deg, #ece7df 0%, var(--muted) 60%, #e9efe9 100%);
-  container-type: inline-size; transition: transform .25s, border-color .25s;
-}
-#optpk .testimonial-card:hover{ transform: translateY(-5px); border-color: var(--deep-green); }
-#optpk .t-photo{ position: absolute; inset: 0 0 0 46%; display: flex; align-items: flex-end; justify-content: center; color: #d3cfc6; }
-#optpk .t-photo svg{ width: 78%; height: auto; display: block; }
-#optpk .t-photo img{ width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-#optpk .t-panel{
-  position: absolute; left: 4%; top: 9%; bottom: 9%; width: 42%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  padding: 0 4%; background: rgba(255,255,255,.72);
-  clip-path: polygon(50% 0, 100% 22%, 100% 78%, 50% 100%, 0 78%, 0 22%);
-}
-#optpk .t-name{ font-size: 22px; font-size: max(16px, 4.4cqw); font-weight: 700; line-height: 1.2; }
-#optpk .t-title{ font-size: 11px; font-size: max(10px, 2cqw); font-weight: 600; margin-top: .3em; padding-bottom: .7em; border-bottom: 2px solid var(--signal); }
-#optpk .t-logo{
-  margin-top: .9em; padding: .5em 1em; border: 1px dashed #b9b6ad; border-radius: 6px;
-  font-size: 10px; font-size: max(9px, 1.8cqw); color: var(--muted-foreground);
-}
-#optpk .t-logo:has(img){ border: 0; padding: 0; }
-#optpk .t-logo img{ max-height: 44px; max-height: 9cqw; width: auto; display: block; }
-#optpk .t-panel .brand-o{ position: absolute; bottom: 9%; width: 22px; width: 5cqw; height: 22px; height: 5cqw; margin: 0; }
-#optpk .t-play{
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: 58px; width: 10cqw; height: 40px; height: 7cqw; border-radius: 10px;
-  display: grid; place-items: center; background: var(--signal); color: var(--paper);
-}
-#optpk .t-play svg{ width: 46%; height: auto; }
+#optpk .testimonial-pic{ margin: 0; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); background: var(--muted); }
+#optpk .testimonial-pic img{ width: 100%; height: auto; display: block; }
 @media (min-width: 768px) { #optpk .testimonial-grid{ grid-template-columns: 1fr 1fr; } }
 #optpk .founder{ border-top: 1px solid var(--border); }
 #optpk .founder-grid{ align-items: center; }
@@ -171,15 +142,7 @@
   #optpk .trust-item::before{ top: .5em; width: 9px; height: 9px; }
   #optpk .trust-item::after{ display: none; }
   #optpk .testimonial-grid{ margin-top: 36px; gap: 18px; }
-  #optpk .testimonial-card{ aspect-ratio: 4 / 3; border-radius: 16px; }
-  #optpk .t-panel{ left: 3%; top: 8%; bottom: 8%; width: 52%; }
-  #optpk .t-photo{ inset: 0 0 0 52%; }
-  #optpk .t-play{ left: 56%; width: 46px; height: 34px; border-radius: 8px; }
-  #optpk .t-name{ font-size: 17px; }
-  #optpk .t-title{ font-size: 11px; }
-  #optpk .t-logo{ font-size: 10px; }
-  #optpk .t-logo img{ max-height: 34px; }
-  #optpk .t-panel .brand-o{ width: 20px; height: 20px; }
+  #optpk .testimonial-pic{ border-radius: 16px; }
   #optpk .process-grid{ grid-template-columns: 1fr 1fr; gap: 28px 18px; margin-top: 36px; }
   #optpk .process-step{ padding: 22px 0 0; }
   #optpk .process-step .big-number{ font-size: 40px; }
@@ -562,13 +525,7 @@
     </section>
 
     <!-- ================= 03 · Testimonials ================= -->
-    <!-- SAMPLE CARDS - for each real client replace:
-         - href            : link to the testimonial video (opens in a new tab)
-         - .t-name         : client name
-         - .t-title        : Agency Owner / Founder / CEO
-         - .t-logo         : swap the placeholder for <img src="LOGO-URL" alt="Company name" />
-         - .t-photo        : swap the placeholder icon for <img src="PHOTO-OR-VIDEO-THUMBNAIL-URL" alt="" />
-         Copy a whole <a class="testimonial-card">…</a> block to add another client. -->
+    <!-- Testimonial pictures: to add another client, copy one <figure class="testimonial-pic"> line and change the image URL and alt text. -->
     <section class="section" id="testimonials">
       <div class="container-site">
         <div class="split-2 testimonial-head">
@@ -585,26 +542,8 @@
           </div>
         </div>
         <div class="testimonial-grid">
-          <a class="testimonial-card" href="#testimonials" aria-label="Watch the video testimonial from Client Name, Agency Owner">
-            <span class="t-photo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 24v-2.5C3 17.400 7 15 12 15s9 2.400 9 6.500V24z" /></svg></span>
-            <span class="t-panel">
-              <span class="t-name">Client Name</span>
-              <span class="t-title">Agency Owner</span>
-              <span class="t-logo">Company logo</span>
-              <svg class="brand-o" aria-hidden="true" focusable="false"><use href="#optpk-logo" /></svg>
-            </span>
-            <span class="t-play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.500v13a1 1 0 0 0 1.520.850l10.500-6.500a1 1 0 0 0 0-1.700L9.520 4.650A1 1 0 0 0 8 5.500z" /></svg></span>
-          </a>
-          <a class="testimonial-card" href="#testimonials" aria-label="Watch the video testimonial from Client Name, Founder and CEO">
-            <span class="t-photo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7.5" r="4.5" /><path d="M3 24v-2.5C3 17.400 7 15 12 15s9 2.400 9 6.500V24z" /></svg></span>
-            <span class="t-panel">
-              <span class="t-name">Client Name</span>
-              <span class="t-title">Founder &amp; CEO</span>
-              <span class="t-logo">Company logo</span>
-              <svg class="brand-o" aria-hidden="true" focusable="false"><use href="#optpk-logo" /></svg>
-            </span>
-            <span class="t-play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.500v13a1 1 0 0 0 1.520.850l10.500-6.500a1 1 0 0 0 0-1.700L9.520 4.650A1 1 0 0 0 8 5.500z" /></svg></span>
-          </a>
+          <figure class="testimonial-pic"><img src="https://optimization.pk/wp-content/uploads/2026/10/Abdullah-Amin-scaled.jpg" alt="Abdullah Amin, Optimization.pk client" loading="lazy" /></figure>
+          <figure class="testimonial-pic"><img src="https://optimization.pk/wp-content/uploads/2026/10/Mr.-Ab-Awan-scaled.jpg" alt="Ab Awan, Optimization.pk client" loading="lazy" /></figure>
         </div>
         <!-- Client logo slider. To add a client: add one <span class="client-logo"> to the first list
              AND the same line with class "client-dup" to the second list (the copy makes the loop seamless).
