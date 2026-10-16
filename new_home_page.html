@@ -124,9 +124,19 @@
 #optpk .testimonial-points li{ display: flex; align-items: center; gap: 10px; }
 #optpk .testimonial-points svg{ width: 16px; height: 16px; color: var(--signal); flex-shrink: 0; }
 #optpk .testimonial-grid{ display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 56px; }
-#optpk .testimonial-pic{ display: block; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); background: var(--muted); transition: transform .25s, border-color .25s; }
+#optpk .testimonial-pic{ position: relative; display: block; overflow: hidden; border-radius: 20px; border: 1px solid var(--border); background: var(--muted); transition: transform .25s, border-color .25s; }
 #optpk .testimonial-pic:hover{ transform: translateY(-5px); border-color: var(--deep-green); }
 #optpk .testimonial-pic img{ width: 100%; height: auto; display: block; }
+/* Green YouTube-style play button on each testimonial picture. */
+#optpk .t-play{ position: absolute; left: 50%; top: 50%; width: 76px; height: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 6px 14px rgba(0,0,0,.25)); transition: transform .2s; pointer-events: none; }
+#optpk .testimonial-pic:hover .t-play{ transform: translate(-50%, -50%) scale(1.1); }
+/* Video player popup: plays the YouTube Short on this page. */
+#optpk .video-modal{ position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(21,21,21,.85); }
+#optpk .video-modal.open{ display: flex; }
+#optpk .video-frame{ position: relative; width: min(400px, 100%, calc(85vh * 9 / 16)); aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
+#optpk .video-frame iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+#optpk .video-close{ position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--signal); color: var(--ink); }
+#optpk .video-close svg{ width: 20px; height: 20px; }
 @media (min-width: 768px) { #optpk .testimonial-grid{ grid-template-columns: 1fr 1fr; } }
 #optpk .founder{ border-top: 1px solid var(--border); }
 #optpk .founder-grid{ align-items: center; }
@@ -144,6 +154,7 @@
   #optpk .trust-item::after{ display: none; }
   #optpk .testimonial-grid{ margin-top: 36px; gap: 18px; }
   #optpk .testimonial-pic{ border-radius: 16px; }
+  #optpk .t-play{ width: 60px; }
   #optpk .process-grid{ grid-template-columns: 1fr 1fr; gap: 28px 18px; margin-top: 36px; }
   #optpk .process-step{ padding: 22px 0 0; }
   #optpk .process-step .big-number{ font-size: 40px; }
@@ -526,7 +537,7 @@
     </section>
 
     <!-- ================= 03 · Testimonials ================= -->
-    <!-- Testimonial pictures: to add another client, copy one <a class="testimonial-pic"> line and change the YouTube link, image URL and alt text. -->
+    <!-- Testimonial pictures: to add another client, copy one <a class="testimonial-pic"> block and change the YouTube link, data-video (the video ID from the link), image URL and alt text. Clicking plays the video in a popup on this page. -->
     <section class="section" id="testimonials">
       <div class="container-site">
         <div class="split-2 testimonial-head">
@@ -543,8 +554,8 @@
           </div>
         </div>
         <div class="testimonial-grid">
-          <a class="testimonial-pic" href="https://youtube.com/shorts/U5fcM6kGJtM" target="_blank" rel="noopener" aria-label="Watch Abdullah Amin's video testimonial on YouTube (opens in a new tab)"><img src="https://optimization.pk/wp-content/uploads/2026/10/Abdullah-Amin-scaled.jpg" alt="Abdullah Amin, Optimization.pk client" loading="lazy" /></a>
-          <a class="testimonial-pic" href="https://youtube.com/shorts/8HPz1KrVpEc" target="_blank" rel="noopener" aria-label="Watch Ab Awan's video testimonial on YouTube (opens in a new tab)"><img src="https://optimization.pk/wp-content/uploads/2026/10/Mr.-Ab-Awan-scaled.jpg" alt="Ab Awan, Optimization.pk client" loading="lazy" /></a>
+          <a class="testimonial-pic" href="https://youtube.com/shorts/U5fcM6kGJtM" data-video="U5fcM6kGJtM" aria-label="Play Abdullah Amin's video testimonial"><img src="https://optimization.pk/wp-content/uploads/2026/10/Abdullah-Amin-scaled.jpg" alt="Abdullah Amin, Optimization.pk client" loading="lazy" /><svg class="t-play" viewBox="0 0 68 48" aria-hidden="true" focusable="false"><path fill="#00c26e" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path fill="#fff" d="M45 24 27 14v20z"/></svg></a>
+          <a class="testimonial-pic" href="https://youtube.com/shorts/8HPz1KrVpEc" data-video="8HPz1KrVpEc" aria-label="Play Ab Awan's video testimonial"><img src="https://optimization.pk/wp-content/uploads/2026/10/Mr.-Ab-Awan-scaled.jpg" alt="Ab Awan, Optimization.pk client" loading="lazy" /><svg class="t-play" viewBox="0 0 68 48" aria-hidden="true" focusable="false"><path fill="#00c26e" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path fill="#fff" d="M45 24 27 14v20z"/></svg></a>
         </div>
         <!-- Client logo slider. To add a client: add one <span class="client-logo"> to the first list
              AND the same line with class "client-dup" to the second list (the copy makes the loop seamless).
@@ -770,6 +781,12 @@
 
   </main>
 
+  <!-- ================= Video popup (testimonials) ================= -->
+  <div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video testimonial">
+    <button class="video-close" id="video-close" aria-label="Close video"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg></button>
+    <div class="video-frame" id="video-frame"></div>
+  </div>
+
   <!-- ================= Insight modal ================= -->
   <div class="modal-overlay" id="insight-modal" role="presentation">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -897,6 +914,40 @@
     if (e.target === overlay) closeInsight();
   });
   document.getElementById('modal-cta').addEventListener('click', closeInsight);
+
+  /* ---------- Testimonial videos: play in a popup on this page ---------- */
+  var videoModal = document.getElementById('video-modal');
+  var videoFrame = document.getElementById('video-frame');
+  var videoClose = document.getElementById('video-close');
+  var lastVideoLink = null;
+  function openVideo(id, link) {
+    lastVideoLink = link;
+    videoFrame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + encodeURIComponent(id) +
+      '?autoplay=1&rel=0&playsinline=1" title="Video testimonial" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    videoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    videoClose.focus();
+  }
+  function closeVideo() {
+    if (!videoModal.classList.contains('open')) return;
+    videoModal.classList.remove('open');
+    videoFrame.innerHTML = ''; // removing the player stops the video
+    document.body.style.overflow = '';
+    if (lastVideoLink) lastVideoLink.focus();
+  }
+  document.querySelectorAll('.testimonial-pic[data-video]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      openVideo(link.getAttribute('data-video'), link);
+    });
+  });
+  videoClose.addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', function (e) {
+    if (e.target === videoModal) closeVideo();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeVideo();
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeInsight();
   });
