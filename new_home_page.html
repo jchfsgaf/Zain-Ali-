@@ -921,9 +921,13 @@
   var videoClose = document.getElementById('video-close');
   var lastVideoLink = null;
   function openVideo(id, link) {
+    // YouTube's player needs to know which website it is on (error 153 otherwise).
+    // A file opened straight from the computer has no website address, so open YouTube in a new tab instead.
+    if (location.protocol === 'file:') { window.open(link.href, '_blank', 'noopener'); return; }
     lastVideoLink = link;
     videoFrame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + encodeURIComponent(id) +
-      '?autoplay=1&rel=0&playsinline=1" title="Video testimonial" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+      '?autoplay=1&rel=0&playsinline=1&origin=' + encodeURIComponent(location.origin) +
+      '" title="Video testimonial" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     videoModal.classList.add('open');
     document.body.style.overflow = 'hidden';
     videoClose.focus();
